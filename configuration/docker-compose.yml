@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - 33061:3306
+    environment:
+      MARIADB_USER: aps
+      MARIADB_PASSWORD: aps
+      MYSQL_ROOT_PASSWORD: root
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 1002:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  jenkins:
+    image: jenkins/jenkins:lts-jdk11
+    restart: always
+    ports:
+      - 1003:8080
+      - 50001:50000
+    environment:
+      - COPY_REFERENCE_FILE_LOG=/var/jenkins_home/copy_reference_file.log
+    volumes:
+      - /volume1/docker/tfg-aps/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/bin/docker
