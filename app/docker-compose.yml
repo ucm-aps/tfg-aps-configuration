@@ -13,3 +13,4 @@ services:
       - MYSQL_PASSWORD=aps
       - MYSQL_DATABASE=aps
       - JWT_SECRET=aps
+      - PORT=8080
