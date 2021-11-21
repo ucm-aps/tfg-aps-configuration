@@ -1,0 +1,47 @@
+pipeline {
+    environment {
+        imagename = "docker.moyonero.com/tfg-aps"
+        registryCredential = 'DockerRegistry'
+        dockerImage = ''
+    }
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'BRANCH_TYPE'
+    }
+    agent none
+    stages {
+        stage('Clonado de repositorio Git') {
+            agent any
+            steps {
+                cleanWs()
+                git branch: "${params.BRANCH}", url: 'https://github.com/ucm-tfg/TFG-APS.git'
+            }
+        }
+        stage('Construcción de Imagen Docker') {
+            agent {
+                node {
+                    label 'master'
+                }
+            }
+            steps {
+                script{
+                    docker.withRegistry('https://docker.moyonero.com', registryCredential) {
+                        if (params.BRANCH=='master' || params.BRANCH=='develop') {
+                            def customImageLatest = docker.build("docker.moyonero.com/tfg-aps:latest")
+                            customImageLatest.push()
+                        } else {
+                            def version = params.BRANCH
+                            def customImage = docker.build("docker.moyonero.com/tfg-aps:${version}")
+                            customImage.push()
+                        }
+                    }
+                }
+            }
+            post{
+                cleanup {
+                echo "CLEAN"
+                cleanWs()
+                }
+            }
+        }
+    }
+}
