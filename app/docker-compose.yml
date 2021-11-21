@@ -12,3 +12,4 @@ services:
       - MYSQL_USER=aps
       - MYSQL_PASSWORD=aps
       - MYSQL_DATABASE=aps
+      - JWT_SECRET=aps
