@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   server:
-    image: docker.moyonero.com/tfg-aps:latest
+    image: docker.moyonero.com/tfg-aps:dev-david
     restart: always
     ports:
       - 1000:8080
