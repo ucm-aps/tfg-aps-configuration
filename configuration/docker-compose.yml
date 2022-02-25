@@ -47,3 +47,14 @@ services:
       - 1004:80
       - 1005:443
     restart: unless-stopped
+
+  sonarqube:
+    image: sonarqube:latest
+    container_name: aps-sonarqube
+    restart: always
+    ports:
+      - 1006:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
