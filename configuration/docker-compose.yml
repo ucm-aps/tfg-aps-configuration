@@ -2,6 +2,7 @@ version: "3.9"
 services:
   db:
     image: mariadb
+    container_name: mariadb
     restart: always
     ports:
       - 33061:3306
@@ -12,6 +13,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin
+    container_name: phpmyadmin
     restart: always
     ports:
       - 1002:80
@@ -20,6 +22,7 @@ services:
 
   jenkins:
     image: jenkins/jenkins:lts-jdk11
+    container_name: jenkins
     restart: always
     ports:
       - 1003:8080
