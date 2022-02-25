@@ -4,7 +4,7 @@ services:
     image: mariadb
     restart: always
     ports:
-      - 33061:3306
+      - 3306:3306
     environment:
       MARIADB_USER: aps
       MARIADB_PASSWORD: aps
@@ -30,3 +30,17 @@ services:
       - /volume1/docker/tfg-aps/jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/local/bin/docker:/usr/bin/docker
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /volume1/docker/tfg-aps/heimdall/config:/config
+    ports:
+      - 1004:80
+      - 1005:443
+    restart: unless-stopped
