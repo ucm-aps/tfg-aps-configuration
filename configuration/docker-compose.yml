@@ -2,7 +2,7 @@ version: "3.9"
 services:
   db:
     image: mariadb
-    container_name: mariadb
+    container_name: aps-mariadb
     restart: always
     ports:
       - 33061:3306
@@ -13,7 +13,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin
+    container_name: aps-phpmyadmin
     restart: always
     ports:
       - 1002:80
@@ -22,7 +22,7 @@ services:
 
   jenkins:
     image: jenkins/jenkins:lts-jdk11
-    container_name: jenkins
+    container_name: aps-jenkins
     restart: always
     ports:
       - 1003:8080
@@ -36,7 +36,7 @@ services:
 
   heimdall:
     image: lscr.io/linuxserver/heimdall
-    container_name: heimdall
+    container_name: aps-heimdall
     environment:
       - PUID=1000
       - PGID=1000
