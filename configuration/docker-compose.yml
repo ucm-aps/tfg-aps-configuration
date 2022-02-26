@@ -10,6 +10,11 @@ services:
       MARIADB_USER: aps
       MARIADB_PASSWORD: aps
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aps
+    volumes:
+      - /volume1/docker/tfg-aps/database/scripts:/docker-entrypoint-initdb.d
+      - /volume1/docker/tfg-aps/database/mysql:/var/lib/mysql
+      - /volume1/docker/tfg-aps/database/config:/etc/mysql/conf.d
 
   phpmyadmin:
     image: phpmyadmin
