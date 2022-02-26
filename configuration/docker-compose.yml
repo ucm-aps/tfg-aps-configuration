@@ -36,6 +36,7 @@ services:
       - COPY_REFERENCE_FILE_LOG=/var/jenkins_home/copy_reference_file.log
     volumes:
       - /volume1/docker/tfg-aps/jenkins:/var/jenkins_home
+      - /volume1/docker/tfg-aps/jenkins/downloads:/var/jenkins_home/downloads
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/local/bin/docker:/usr/bin/docker
 
