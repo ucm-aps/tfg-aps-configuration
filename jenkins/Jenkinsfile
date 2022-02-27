@@ -7,13 +7,39 @@ pipeline {
     parameters {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'BRANCH_TYPE'
     }
-    agent none
+    agent any
     stages {
         stage('Clonado de repositorio Git') {
             agent any
             steps {
                 cleanWs()
-                git branch: "${params.BRANCH}", url: 'https://github.com/ucm-tfg/TFG-APS.git'
+                git branch: 'master', url: 'https://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@github.com/ucm-tfg/tfg-aps-configuration.git'
+                stash includes: 'app/Dockerfile', name: 'dockerfile'
+                git branch: "${params.BRANCH}", url: 'https://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@github.com/ucm-tfg/TFG-APS.git'
+            }
+        }
+        stage('Compilación') {
+            agent {
+                docker { image 'node:16.14.0-alpine3.15' }
+            }
+            steps {
+                sh 'npm install && npm run build:prod'
+            }
+        }
+        stage('Pruebas unitarias') {
+            agent {
+                docker { image 'node:16.14.0-alpine3.15' }
+            }
+            steps {
+                sh 'npm run test'
+            }
+        }
+        stage('Comprobación de Calidad') {
+            agent {
+                docker { image 'zazukoians/node-java:latest' }
+            }
+            steps {
+                sh 'npm run sonar'
             }
         }
         stage('Construcción de Imagen Docker') {
@@ -23,14 +49,16 @@ pipeline {
                 }
             }
             steps {
+                unstash 'dockerfile'
                 script{
                     docker.withRegistry('https://docker.moyonero.com', registryCredential) {
+                        def dockerfile = 'app/Dockerfile'
                         if (params.BRANCH=='master' || params.BRANCH=='develop') {
-                            def customImageLatest = docker.build("docker.moyonero.com/tfg-aps:latest")
+                            def customImageLatest = docker.build("docker.moyonero.com/tfg-aps:latest", "-f ${dockerfile} .")
                             customImageLatest.push()
                         } else {
                             def version = params.BRANCH
-                            def customImage = docker.build("docker.moyonero.com/tfg-aps:${version}")
+                            def customImage = docker.build("docker.moyonero.com/tfg-aps:${version}", "-f ${dockerfile} .")
                             customImage.push()
                         }
                     }
