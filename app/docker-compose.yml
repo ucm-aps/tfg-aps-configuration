@@ -3,9 +3,8 @@ services:
 
   server:
     image: docker.moyonero.com/tfg-aps:dev-jonathan
+    container_name: aps-web
     restart: always
-    ports:
-      - 1000:8080
     environment:
       - MYSQL_IP=192.168.1.190
       - MYSQL_PORT=33061
@@ -14,3 +13,21 @@ services:
       - MYSQL_DATABASE=aps
       - JWT_SECRET=aps
       - PORT=8080
+    networks:
+      - reverse-proxy_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.aps-web.entrypoints=web"
+      - "traefik.http.routers.aps-web.rule=Host(`aps.moyonero.com`)"
+      - "traefik.http.routers.aps-web.middlewares=aps-web-redirectscheme"
+      - "traefik.http.routers.aps-web-secure.entrypoints=websecure"
+      - "traefik.http.routers.aps-web-secure.rule=Host(`aps.moyonero.com`)"
+      - "traefik.http.routers.aps-web-secure.tls=true"
+      - "traefik.http.routers.aps-web-secure.tls.certresolver=moyonero.com"
+      - "traefik.http.services.aps-web-secure.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.aps-web-redirectscheme.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.aps-web-redirectscheme.redirectscheme.permanent=true"
+
+networks:
+  reverse-proxy_default:
+    external: true
