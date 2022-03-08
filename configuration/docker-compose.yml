@@ -28,14 +28,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.aps-phpmyadmin.entrypoints=web"
       - "traefik.http.routers.aps-phpmyadmin.rule=Host(`aps-phpmyadmin.moyonero.com`)"
-      - "traefik.http.routers.aps-phpmyadmin.middlewares=aps-phpmyadmin-redirectscheme"
+      - "traefik.http.routers.aps-phpmyadmin.middlewares=redirect"
       - "traefik.http.routers.aps-phpmyadmin-secure.entrypoints=websecure"
       - "traefik.http.routers.aps-phpmyadmin-secure.rule=Host(`aps-phpmyadmin.moyonero.com`)"
       - "traefik.http.routers.aps-phpmyadmin-secure.tls=true"
       - "traefik.http.routers.aps-phpmyadmin-secure.tls.certresolver=moyonero.com"
       - "traefik.http.services.aps-phpmyadmin-secure.loadbalancer.server.port=80"
-      - "traefik.http.middlewares.aps-phpmyadmin-redirectscheme.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.aps-phpmyadmin-redirectscheme.redirectscheme.permanent=true"
 
   jenkins:
     image: jenkinsci/blueocean:latest
@@ -54,14 +52,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.aps-jenkins.entrypoints=web"
       - "traefik.http.routers.aps-jenkins.rule=Host(`aps-jenkins.moyonero.com`)"
-      - "traefik.http.routers.aps-jenkins.middlewares=aps-jenkins-redirectscheme"
+      - "traefik.http.routers.aps-jenkins.middlewares=redirect"
       - "traefik.http.routers.aps-jenkins-secure.entrypoints=websecure"
       - "traefik.http.routers.aps-jenkins-secure.rule=Host(`aps-jenkins.moyonero.com`)"
       - "traefik.http.routers.aps-jenkins-secure.tls=true"
       - "traefik.http.routers.aps-jenkins-secure.tls.certresolver=moyonero.com"
       - "traefik.http.services.aps-jenkins-secure.loadbalancer.server.port=8080"
-      - "traefik.http.middlewares.aps-jenkins-redirectscheme.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.aps-jenkins-redirectscheme.redirectscheme.permanent=true"
 
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
@@ -79,14 +75,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.aps-heimdall.entrypoints=web"
       - "traefik.http.routers.aps-heimdall.rule=Host(`aps-dashboard.moyonero.com`)"
-      - "traefik.http.routers.aps-heimdall.middlewares=aps-heimdall-redirectscheme"
+      - "traefik.http.routers.aps-heimdall.middlewares=redirect"
       - "traefik.http.routers.aps-heimdall-secure.entrypoints=websecure"
       - "traefik.http.routers.aps-heimdall-secure.rule=Host(`aps-dashboard.moyonero.com`)"
       - "traefik.http.routers.aps-heimdall-secure.tls=true"
       - "traefik.http.routers.aps-heimdall-secure.tls.certresolver=moyonero.com"
       - "traefik.http.services.aps-heimdall-secure.loadbalancer.server.port=80"
-      - "traefik.http.middlewares.aps-heimdall-redirectscheme.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.aps-heimdall-redirectscheme.redirectscheme.permanent=true"
 
   sonarqube:
     image: sonarqube:latest
@@ -105,14 +99,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.aps-sonar.entrypoints=web"
       - "traefik.http.routers.aps-sonar.rule=Host(`aps-sonar.moyonero.com`)"
-      - "traefik.http.routers.aps-sonar.middlewares=aps-sonar-redirectscheme"
+      - "traefik.http.routers.aps-sonar.middlewares=redirect"
       - "traefik.http.routers.aps-sonar-secure.entrypoints=websecure"
       - "traefik.http.routers.aps-sonar-secure.rule=Host(`aps-sonar.moyonero.com`)"
       - "traefik.http.routers.aps-sonar-secure.tls=true"
       - "traefik.http.routers.aps-sonar-secure.tls.certresolver=moyonero.com"
       - "traefik.http.services.aps-sonar-secure.loadbalancer.server.port=9000"
-      - "traefik.http.middlewares.aps-sonar-redirectscheme.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.aps-sonar-redirectscheme.redirectscheme.permanent=true"
 
 networks:
   reverse-proxy_default:
