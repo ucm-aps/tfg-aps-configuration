@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   server:
-    image: docker.moyonero.com/tfg-aps:dev-jonathan
+    image: docker.moyonero.com/tfg-aps
     container_name: aps-web
     restart: always
     environment:
