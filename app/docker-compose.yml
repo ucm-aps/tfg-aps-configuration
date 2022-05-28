@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   server:
-    image: docker.moyonero.com/tfg-aps:dev-david-resumenes
+    image: docker.moyonero.com/tfg-aps:develop
     container_name: aps-web
     restart: always
     environment:
